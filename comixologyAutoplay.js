@@ -1,6 +1,15 @@
 var delayString = prompt("Enter delay in second to change page" , "5");
 var delayInteger = parseInt(delayString) * 1000;
 
+if (document.querySelector("#autoplay-btn")){
+	document.querySelector("#autoplay-btn").remove();
+	if (typeof window.autoplayInterval !== 'undefined') {
+		clearInterval(window.autoplayInterval);
+	}
+}
+
+
+
 var sidebar = document.querySelector("nav#toolbar");
 var refBtn = document.querySelector("#settings-btn");
 var cloneBtn = refBtn.cloneNode(true);
@@ -9,22 +18,21 @@ cloneBtn.querySelector("img").src = "https://m.media-amazon.com/images/G/01/Comi
 cloneBtn.id="autoplay-btn";
 sidebar.appendChild(cloneBtn);
 var state = 0;
-var autoplayInterval = undefined;
 
 cloneBtn.onclick = function(){
 	if(state===0)
 	{
 		cloneBtn.querySelector("img").src = "https://m.media-amazon.com/images/G/01/Comics/web/i/assets/imgs/reader/exit.svg";
-		console.log('Autoplay: ON');
+		console.log('Comixology Autoplay: ON');
 		state = 1;
-		autoplayInterval = setInterval(function(){ document.querySelector("button.right").click()} , delayInteger);
+		window.autoplayInterval = setInterval(function(){ document.querySelector("button.right").click()} , delayInteger);
 	}
 	else
 	{
 		cloneBtn.querySelector("img").src = "https://m.media-amazon.com/images/G/01/Comics/web/i/assets/imgs/reader/rightnav.svg";
-		console.log('Autoplay: OFF');
+		console.log('Comixology Autoplay: OFF');
 		state = 0;
-		clearInterval(autoplayInterval);
+		clearInterval(window.autoplayInterval);
 	}
 };
 
